@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para Nayu 馃挏 Mi Ratoncita</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --lilac-1: #f5ebff;
+            --lilac-2: #e9d5ff;
+            --lilac-3: #ddd6fe;
+            --lilac-4: #fae8ff;
+            --deep-purple: #3b0764;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            user-select: none;
+            background: radial-gradient(circle at 15% 18%, #f5d0fe 0%, transparent 45%),
+                        radial-gradient(circle at 85% 82%, #c084fc 0%, transparent 48%),
+                        radial-gradient(circle at 50% 50%, #ede9fe 0%, transparent 70%),
+                        linear-gradient(135deg, var(--lilac-1), var(--lilac-2), var(--lilac-3), var(--lilac-4));
+            background-size: 200% 200%;
+            animation: auroraShift 12s ease-in-out infinite alternate;
+        }
+
+        @keyframes auroraShift {
+            0% { background-position: 0% 15%; }
+            100% { background-position: 100% 85%; }
+        }
+
+        .font-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Flotaci贸n suave a 60fps */
+        @keyframes floatSlow {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+            50% { transform: translate3d(0, -8px, 0) rotate(0.6deg); }
+        }
+
+        .envelope-float {
+            animation: floatSlow 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+            will-change: transform;
+        }
+
+        .envelope-wrapper {
+            perspective: 1200px;
+        }
+
+        .flap-top {
+            transform-origin: top center;
+            transition: transform 0.48s cubic-bezier(0.34, 1.45, 0.64, 1), z-index 0.15s;
+            will-change: transform;
+        }
+
+        .envelope-open .flap-top {
+            transform: rotateX(180deg);
+            z-index: 4;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 6px 22px rgba(126, 34, 206, 0.45); }
+            50% { transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 10px 30px rgba(192, 38, 211, 0.65); }
+        }
+
+        .wax-seal-pulse {
+            animation: sealPulse 1.7s ease-in-out infinite;
+        }
+
+        /* Animaci贸n de personajes (Snoopy, Woodstock y Michi) */
+        @keyframes gentleBreath {
+            0%, 100% { transform: translate3d(0, 0, 0) scale(1, 1); }
+            50% { transform: translate3d(0, -3px, 0) scale(1.01, 0.99); }
+        }
+
+        .characters-idle {
+            animation: gentleBreath 2.6s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        @keyframes happyJump {
+            0% { transform: translateY(0) scale(1, 1); }
+            30% { transform: translateY(-18px) scale(0.95, 1.06); }
+            65% { transform: translateY(3px) scale(1.04, 0.96); }
+            100% { transform: translateY(0) scale(1, 1); }
+        }
+
+        .characters-hop {
+            animation: happyJump 0.46s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(-8deg); }
+            50% { transform: rotate(14deg); }
+        }
+
+        .michi-tail {
+            transform-origin: 185px 142px;
+            animation: tailWag 1.8s ease-in-out infinite;
+        }
+
+        @keyframes woodstockFlutter {
+            0%, 100% { transform: translateY(0px) rotate(-4deg); }
+            50% { transform: translateY(-6px) rotate(6deg); }
+        }
+
+        .woodstock-float {
+            animation: woodstockFlutter 1.9s ease-in-out infinite;
+        }
+
+        /* Aparici贸n escalonada de la carta */
+        .letter-reveal {
+            opacity: 0;
+            transform: translate3d(0, 26px, 0) scale(0.94);
+            transition: opacity 0.36s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.44s cubic-bezier(0.34, 1.35, 0.64, 1);
+            will-change: transform, opacity;
+        }
+
+        .letter-reveal.active {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+
+        .stagger-item {
+            opacity: 0;
+            transform: translate3d(0, 12px, 0);
+            transition: opacity 0.32s ease, transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .stagger-item.visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        /* Polaroid 3D con giro doble cara (Frente + Reverso secreto) */
+        .polaroid-perspective {
+            perspective: 1100px;
+        }
+
+        .polaroid-inner {
+            position: relative;
+            width: 100%;
+            transition: transform 0.65s cubic-bezier(0.34, 1.4, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .polaroid-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .polaroid-face {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .polaroid-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Textura de papel y scrollbar */
+        .paper-dots {
+            background-image: radial-gradient(rgba(147, 51, 234, 0.065) 1px, transparent 0);
+            background-size: 14px 14px;
+        }
+
+        .custom-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(243, 232, 255, 0.55);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #c084fc;
+            border-radius: 10px;
+        }
+
+        /* Barras ecualizador musical */
+        @keyframes eqDance {
+            0%, 100% { height: 4px; }
+            50% { height: 15px; }
+        }
+        .eq-bar {
+            width: 2.5px;
+            background: #7e22ce;
+            border-radius: 999px;
+            height: 5px;
+        }
+        .music-active .eq-bar:nth-child(1) { animation: eqDance 0.52s ease-in-out infinite; }
+        .music-active .eq-bar:nth-child(2) { animation: eqDance 0.40s ease-in-out infinite 0.14s; }
+        .music-active .eq-bar:nth-child(3) { animation: eqDance 0.58s ease-in-out infinite 0.28s; }
+        .music-active .eq-bar:nth-child(4) { animation: eqDance 0.45s ease-in-out infinite 0.10s; }
+
+        /* Burbuja de di谩logo de personajes */
+        @keyframes bubblePop {
+            0% { opacity: 0; transform: translateY(8px) scale(0.85); }
+            15% { opacity: 1; transform: translateY(0) scale(1.04); }
+            25% { transform: translateY(0) scale(1); }
+            85% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-6px) scale(0.92); }
+        }
+
+        .speech-bubble-anim {
+            animation: bubblePop 2.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen w-full flex flex-col items-center justify-center p-3 sm:p-5 relative overflow-hidden">
+
+    <!-- CANVAS DE PART脥CULAS AMBIENTALES A 60FPS -->
+    <canvas id="ambient-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- ELEMENTO DE AUDIO OPCIONAL PARA ARCHIVOS EXTERNOS (the-reason.mp3 / the-reason.wav) -->
+    <audio id="external-audio" preload="none" loop>
+        <source src="the-reason.mp3" type="audio/mpeg">
+        <source src="the-reason.wav" type="audio/wav">
+    </audio>
+
+    <!-- BARRA FLOTANTE SUPERIOR -->
+    <header class="fixed top-3.5 inset-x-0 z-40 px-3 sm:px-5 flex items-center justify-between max-w-2xl mx-auto pointer-events-none">
+        <!-- Bot贸n volver al sobre (visible al abrir la carta) -->
+        <button id="top-back-btn" type="button" class="pointer-events-auto opacity-0 scale-90 pointer-events-none transition-all duration-300 bg-white/85 hover:bg-white active:scale-95 backdrop-blur-md px-3.5 py-2 rounded-full shadow-sm border border-purple-200 flex items-center gap-1.5 text-purple-900 font-bold text-xs sm:text-sm cursor-pointer">
+            <span>馃拰</span>
+            <span>Sobre</span>
+        </button>
+
+        <!-- Indicador central sutil en portada -->
+        <div id="top-hint" class="bg-white/80 backdrop-blur-md px-4 py-1.5 rounded-full shadow-sm border border-purple-200/90 flex items-center gap-1.5 transition-opacity duration-300">
+            <span class="text-xs">鉁�</span>
+            <span class="text-[11px] sm:text-xs font-bold text-purple-900 tracking-wide">
+                Para mi ratoncita, Nayu
+            </span>
+            <span class="text-xs">馃挏</span>
+        </div>
+
+        <!-- Bot贸n de M煤sica: "The Reason 馃幍" (Hoobastank) -->
+        <button id="music-toggle-btn" type="button" class="pointer-events-auto bg-white/90 hover:bg-white active:scale-95 backdrop-blur-md px-3.5 py-2 rounded-full shadow-sm border border-purple-200 flex items-center gap-2 transition-all cursor-pointer" title="Tocar melod铆a de The Reason - Hoobastank">
+            <div id="eq-bars" class="flex items-end gap-0.5 h-3.5">
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+                <span class="eq-bar"></span>
+            </div>
+            <span id="music-btn-text" class="text-xs font-bold text-purple-900 whitespace-nowrap">
+                The Reason 馃幍
+            </span>
+        </button>
+    </header>
+
+    <!-- =========================================================
+         ESCENA 1: PORTADA CON SNOOPY CL脕SICO + WOODSTOCK + MICHI LILA + SOBRE 3D
+         ========================================================= -->
+    <main id="envelope-stage" class="relative z-10 flex flex-col items-center justify-center w-full max-w-md pt-10 transition-all duration-300">
+        
+        <!-- Escena de Personajes sobre Coj铆n Acolchado Lila -->
+        <div id="characters-stage" class="relative w-72 h-44 sm:w-80 sm:h-48 -mb-5 z-20 cursor-pointer select-none flex items-end justify-center" title="隆T贸canos! 馃惥馃挏">
+            
+            <!-- Burbuja de di谩logo din谩mica al tocar -->
+            <div id="speech-bubble" class="hidden absolute -top-3 bg-white/95 backdrop-blur-md border-2 border-purple-300 px-3.5 py-1.5 rounded-2xl shadow-md z-30 pointer-events-none">
+                <p id="speech-text" class="text-xs sm:text-sm font-bold text-purple-900 whitespace-nowrap">
+                    隆Miau miau ratoncita! 馃惐馃挏
+                </p>
+                <div class="w-2.5 h-2.5 bg-white border-r-2 border-b-2 border-purple-300 rotate-45 mx-auto -mb-3 mt-0.5"></div>
+            </div>
+
+            <!-- Ilustraci贸n SVG Detallada: Snoopy Cl谩sico Peanuts + Woodstock + Michi Lila -->
+            <svg id="characters-svg" viewBox="0 0 320 195" class="characters-idle w-full h-full drop-shadow-md overflow-visible" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="cushionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f3e8ff"/>
+                        <stop offset="50%" stop-color="#d8b4fe"/>
+                        <stop offset="100%" stop-color="#a855f7"/>
+                    </linearGradient>
+                    <linearGradient id="heartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#f5d0fe"/>
+                        <stop offset="50%" stop-color="#c084fc"/>
+                        <stop offset="100%" stop-color="#7e22ce"/>
+                    </linearGradient>
+                    <linearGradient id="michiLilac" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#e9d5ff"/>
+                        <stop offset="100%" stop-color="#c084fc"/>
+                    </linearGradient>
+                </defs>
+
+                <!-- Coj铆n acolchado lila donde descansan -->
+                <ellipse cx="160" cy="176" rx="125" ry="16" fill="url(#cushionGrad)" stroke="#7e22ce" stroke-width="2.4"/>
+                <path d="M55 174 Q160 183 265 174" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.6" stroke-linecap="round"/>
+
+                <!-- WOODSTOCK revoloteando feliz a la izquierda -->
+                <g class="woodstock-float" transform="translate(38, 42)">
+                    <!-- Plumas de la cabeza -->
+                    <path d="M16 14 L11 4 M19 13 L18 2 M22 14 L26 5" stroke="#18181b" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Cuerpo y cabeza amarilla -->
+                    <path d="M14 28 C10 28, 8 34, 12 38 C16 42, 24 40, 25 34 C25 30, 22 28, 20 27 C24 25, 27 21, 25 16 C23 12, 16 12, 14 17 C13 20, 14 24, 14 28 Z" fill="#facc15" stroke="#18181b" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Piquito largo -->
+                    <path d="M24 18 L34 16 L25 22 Z" fill="#facc15" stroke="#18181b" stroke-width="1.8" stroke-linejoin="round"/>
+                    <!-- Ojito -->
+                    <circle cx="20" cy="17" r="1.5" fill="#18181b"/>
+                    <!-- Alita -->
+                    <path d="M13 31 Q6 27 9 35" fill="#fde047" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+                    <!-- Patitas -->
+                    <path d="M16 40 L15 46 M20 40 L21 46" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+                </g>
+
+                <!-- SNOOPY CL脕SICO DE PERFIL SENTADO SOSTENIENDO CORAZ脫N MORADO -->
+                <g transform="translate(68, 12)">
+                    <!-- Colita cl谩sica blanca con punta negra -->
+                    <path d="M36 135 Q20 132 22 121 Q25 116 32 124" fill="#ffffff" stroke="#18181b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M22 123 Q23 118 28 121" fill="none" stroke="#18181b" stroke-width="3" stroke-linecap="round"/>
+
+                    <!-- Cuerpo sentado de perfil -->
+                    <path d="M46 94 C35 110, 32 136, 44 148 C56 156, 82 154, 88 140 C93 126, 85 104, 74 94 Z" fill="#ffffff" stroke="#18181b" stroke-width="2.8" stroke-linejoin="round"/>
+                    <!-- Manchita negra en la espalda -->
+                    <ellipse cx="39" cy="117" rx="5.5" ry="9" transform="rotate(-12 39 117)" fill="#18181b"/>
+
+                    <!-- Collar rojo cl谩sico -->
+                    <path d="M46 91 Q62 97 77 91 L79 98 Q62 104 44 98 Z" fill="#ef4444" stroke="#18181b" stroke-width="2.4" stroke-linejoin="round"/>
+
+                    <!-- Cabeza cl谩sica Peanuts de perfil (frente alta + hocico largo redondeado) -->
+                    <path d="M42 64 C38 40, 50 18, 72 18 C88 18, 97 30, 99 42 C114 40, 134 45, 136 60 C138 74, 122 83, 102 82 C92 90, 74 94, 58 90 C46 86, 43 75, 42 64 Z" fill="#ffffff" stroke="#18181b" stroke-width="2.8" stroke-linejoin="round"/>
+
+                    <!-- Ceja flotante t铆pica de Schulz -->
+                    <path d="M84 26 Q89 23 93 26" fill="none" stroke="#18181b" stroke-width="2.2" stroke-linecap="round"/>
+
+                    <!-- Ojo negro de perfil -->
+                    <ellipse cx="90" cy="39" rx="2.6" ry="4.4" fill="#18181b"/>
+
+                    <!-- Nariz ovalada negra grande en la punta del hocico -->
+                    <ellipse cx="133" cy="54" rx="7.5" ry="5.5" transform="rotate(-12 133 54)" fill="#18181b"/>
+                    <ellipse cx="131" cy="52" rx="2.2" ry="1.1" transform="rotate(-12 131 52)" fill="#ffffff" opacity="0.75"/>
+
+                    <!-- Sonrisa dulce de perfil -->
+                    <path d="M98 71 Q112 76 123 69" fill="none" stroke="#18181b" stroke-width="2.3" stroke-linecap="round"/>
+
+                    <!-- Oreja negra ca铆da en forma de l谩grima -->
+                    <path d="M58 46 C44 48, 37 68, 42 86 C45 96, 54 98, 60 90 C65 82, 65 62, 58 46 Z" fill="#18181b" stroke="#18181b" stroke-width="2.2" stroke-linejoin="round"/>
+
+                    <!-- Pies largos cl谩sicos con las 3 rayitas de dedos -->
+                    <path d="M54 148 L96 148 C105 148, 108 158, 98 160 L54 160 C46 160, 46 148, 54 148 Z" fill="#ffffff" stroke="#18181b" stroke-width="2.6" stroke-linejoin="round"/>
+                    <line x1="97" y1="151" x2="103" y2="151" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+                    <line x1="98" y1="155" x2="104" y2="155" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"/>
+
+                    <!-- Coraz贸n morado brillante sostenido por Snoopy -->
+                    <path d="M116 135 C116 135, 92 119, 92 105 C92 97, 98 92, 104 92 C109 92, 113 95, 116 100 C119 95, 123 92, 128 92 C134 92, 140 97, 140 105 C140 119, 116 135, 116 135 Z" fill="url(#heartGrad)" stroke="#18181b" stroke-width="2.4" stroke-linejoin="round"/>
+                    <path d="M99 102 Q102 97 106 98" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+
+                    <!-- Bracito y patita sosteniendo el coraz贸n -->
+                    <path d="M68 106 Q84 114 97 113" fill="none" stroke="#18181b" stroke-width="2.6" stroke-linecap="round"/>
+                    <ellipse cx="98" cy="113" rx="8" ry="6" fill="#ffffff" stroke="#18181b" stroke-width="2.4"/>
+                </g>
+
+                <!-- MICHITO LILA Y BLANCO TIERNO SENTADO A LA DERECHA -->
+                <g transform="translate(202, 68)">
+                    <!-- Colita lila movi茅ndose -->
+                    <path class="michi-tail" d="M56 76 Q78 68 74 50 Q71 42 65 48 Q62 56 54 66" fill="url(#michiLilac)" stroke="#3b0764" stroke-width="2.3" stroke-linecap="round"/>
+
+                    <!-- Cuerpo gordito blanco y lila -->
+                    <path d="M22 46 C14 58, 14 82, 24 90 C34 95, 52 95, 60 88 C68 80, 66 58, 56 46 Z" fill="#ffffff" stroke="#3b0764" stroke-width="2.4" stroke-linejoin="round"/>
+                    <!-- Pechito esponjoso -->
+                    <path d="M32 52 Q40 58 48 52" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round"/>
+
+                    <!-- Orejitas de gato -->
+                    <polygon points="18,24 14,2 32,14" fill="url(#michiLilac)" stroke="#3b0764" stroke-width="2.3" stroke-linejoin="round"/>
+                    <polygon points="19,20 17,8 28,15" fill="#f5d0fe"/>
+                    <polygon points="60,24 64,2 46,14" fill="url(#michiLilac)" stroke="#3b0764" stroke-width="2.3" stroke-linejoin="round"/>
+                    <polygon points="59,20 61,8 50,15" fill="#f5d0fe"/>
+
+                    <!-- Cabecita redonda -->
+                    <ellipse cx="39" cy="32" rx="25" ry="21" fill="#ffffff" stroke="#3b0764" stroke-width="2.4"/>
+                    <!-- Manchita lila en la frente -->
+                    <path d="M31 12 Q39 22 47 12 Z" fill="#c084fc"/>
+
+                    <!-- Ojitos kawaii brillantes -->
+                    <ellipse cx="29" cy="31" rx="3.4" ry="4.2" fill="#3b0764"/>
+                    <circle cx="28" cy="29.5" r="1.2" fill="#ffffff"/>
+                    <ellipse cx="49" cy="31" rx="3.4" ry="4.2" fill="#3b0764"/>
+                    <circle cx="48" cy="29.5" r="1.2" fill="#ffffff"/>
+
+                    <!-- Chapitas rosadas/lila -->
+                    <ellipse cx="22" cy="36" rx="4" ry="2.2" fill="#f0abfc" opacity="0.75"/>
+                    <ellipse cx="56" cy="36" rx="4" ry="2.2" fill="#f0abfc" opacity="0.75"/>
+
+                    <!-- Naricita y boquita ":3" -->
+                    <polygon points="37,35 41,35 39,38" fill="#d946ef"/>
+                    <path d="M34 39 Q36.5 42 39 39 Q41.5 42 44 39" fill="none" stroke="#3b0764" stroke-width="1.8" stroke-linecap="round"/>
+
+                    <!-- Bigotitos -->
+                    <line x1="10" y1="32" x2="18" y2="33" stroke="#3b0764" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="10" y1="37" x2="18" y2="36" stroke="#3b0764" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="60" y1="33" x2="68" y2="32" stroke="#3b0764" stroke-width="1.5" stroke-linecap="round"/>
+                    <line x1="60" y1="36" x2="68" y2="37" stroke="#3b0764" stroke-width="1.5" stroke-linecap="round"/>
+
+                    <!-- Collar lila con cascabel dorado -->
+                    <path d="M24 49 Q39 54 54 49" fill="none" stroke="#9333ea" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="39" cy="53" r="3.5" fill="#facc15" stroke="#3b0764" stroke-width="1.4"/>
+
+                    <!-- Patitas delanteras -->
+                    <ellipse cx="31" cy="88" rx="6.5" ry="4.5" fill="#ffffff" stroke="#3b0764" stroke-width="2"/>
+                    <ellipse cx="47" cy="88" rx="6.5" ry="4.5" fill="#ffffff" stroke="#3b0764" stroke-width="2"/>
+                </g>
+            </svg>
+        </div>
+
+        <!-- SOBRE 3D INTERACTIVO EN TONOS LILA Y LAVANDA -->
+        <div id="envelope-box" class="envelope-wrapper envelope-float cursor-pointer w-full max-w-[355px] sm:max-w-[405px] aspect-[1.45/1] relative select-none group">
+            <div class="w-full h-full paper-dots bg-gradient-to-br from-purple-100 via-fuchsia-50 to-violet-200 rounded-3xl shadow-[0_22px_55px_rgba(88,28,135,0.28)] border-2 border-purple-300/90 relative overflow-hidden transition-transform duration-200 group-hover:scale-[1.02] group-active:scale-[0.98]">
+                
+                <!-- Fondo interior -->
+                <div class="absolute inset-0 bg-purple-300/40"></div>
+
+                <!-- Carta interior asom谩ndose -->
+                <div class="absolute inset-x-4 top-3 bottom-4 bg-white/95 rounded-2xl shadow-2xs border border-purple-200 flex items-center justify-center">
+                    <span class="text-purple-400 text-xs font-bold tracking-widest uppercase">Con mucho cari帽o 鉁�</span>
+                </div>
+
+                <!-- Solapas laterales e inferior -->
+                <div class="absolute inset-0 pointer-events-none">
+                    <svg viewBox="0 0 400 276" preserveAspectRatio="none" class="w-full h-full">
+                        <polygon points="0,0 205,145 0,276" fill="#f5ebff" stroke="#d8b4fe" stroke-width="2"/>
+                        <polygon points="400,0 195,145 400,276" fill="#efe6ff" stroke="#d8b4fe" stroke-width="2"/>
+                        <polygon points="0,276 200,128 400,276" fill="#faf5ff" stroke="#d8b4fe" stroke-width="2"/>
+                    </svg>
+                </div>
+
+                <!-- Solapa superior 3D -->
+                <div id="envelope-flap" class="flap-top absolute top-0 left-0 w-full h-[58%] z-20 pointer-events-none">
+                    <svg viewBox="0 0 400 160" preserveAspectRatio="none" class="w-full h-full drop-shadow-md">
+                        <polygon points="0,0 400,0 200,154" fill="#e9d5ff" stroke="#c084fc" stroke-width="2.5" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+
+                <!-- Sello de lacre morado con coraz贸n -->
+                <div id="wax-seal" class="wax-seal-pulse absolute left-1/2 top-[47%] z-30 rounded-full transition-all duration-300">
+                    <div class="w-15 h-15 sm:w-16 sm:h-16 p-3 rounded-full bg-gradient-to-tr from-purple-900 via-violet-600 to-fuchsia-400 border-2 border-white/95 flex items-center justify-center">
+                        <span class="text-2xl sm:text-3xl drop-shadow">馃挏</span>
+                    </div>
+                </div>
+
+                <!-- Dedicatoria frontal del sobre -->
+                <div class="absolute bottom-3.5 inset-x-0 z-20 text-center pointer-events-none px-3">
+                    <p class="font-script text-2xl sm:text-3xl text-purple-950 font-bold leading-tight">
+                        Para: Nayu (mi ratoncita) 馃挏
+                    </p>
+                    <p class="text-[11px] sm:text-xs text-purple-700 font-bold mt-0.5 tracking-wide">
+                        Toca la pantalla para abrir tu cartita 鉁�
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- =========================================================
+         ESCENA 2: CARTA ABIERTA CON EXPERIENCIA COMPLETA
+         ========================================================= -->
+    <section id="letter-stage" class="fixed inset-0 z-30 flex items-center justify-center pt-14 pb-3 px-3 sm:px-5 opacity-0 pointer-events-none transition-opacity duration-300 bg-purple-950/40 backdrop-blur-sm">
+        
+        <div id="letter-card" class="letter-reveal w-full max-w-xl bg-gradient-to-b from-white via-purple-50/70 to-fuchsia-50/70 backdrop-blur-xl rounded-3xl shadow-[0_25px_80px_rgba(59,7,100,0.45)] border-2 border-purple-200 overflow-hidden flex flex-col max-h-[89vh]">
+            
+            <!-- Encabezado de la carta -->
+            <div class="bg-gradient-to-r from-purple-200/95 via-fuchsia-200/85 to-violet-200/95 px-4 sm:px-6 py-3 flex items-center justify-between border-b border-purple-200 shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 rounded-2xl bg-white/90 border border-purple-200 flex items-center justify-center text-xl shadow-2xs shrink-0">
+                        馃惌
+                    </div>
+                    <div>
+                        <h1 class="font-script text-2xl sm:text-3xl text-purple-950 font-bold leading-none">
+                            Para Nayu 馃挏
+                        </h1>
+                        <p class="text-[11px] font-bold text-purple-700 mt-0.5">
+                            Mi ratoncita favorita 鉁�
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-1.5 text-xs font-bold text-purple-800 bg-white/80 px-3 py-1 rounded-full border border-purple-200">
+                    <span>馃惥</span>
+                    <span>Snoopy & Michis</span>
+                </div>
+            </div>
+
+            <!-- Cuerpo desplazable -->
+            <div class="p-4 sm:p-6 overflow-y-auto custom-scroll space-y-5 text-purple-950">
+                
+                <!-- 1. CARTA SENTIMENTAL + BARRA INTERACTIVA "ACARICIA AL MICHI LILA" -->
+                <div class="stagger-item space-y-3 bg-white/85 rounded-2xl p-4 sm:p-5 border border-purple-100 shadow-2xs">
+                    <p class="font-handwriting text-2xl sm:text-3xl text-purple-800 font-bold">
+                        Mi ratoncita, Nayu 馃挏
+                    </p>
+                    <p class="text-sm sm:text-[15px] leading-relaxed text-slate-700 font-medium">
+                        Quer铆a hacerte este rinconcito especial solo para recordarte lo much铆simo que <span class="text-purple-900 font-bold bg-purple-100 px-1.5 py-0.5 rounded-md">me encantas</span>. Me encanta tu sonrisa, tu ternura, lo dulce que eres y esa magia tan bonita que tienes para hacerme feliz con tan solo pensarte.
+                    </p>
+                    <p class="text-sm sm:text-[15px] leading-relaxed text-slate-700 font-medium">
+                        Eres mi persona favorita y cada momento contigo se vuelve un recuerdo que guardo con todo el coraz贸n, <span class="text-fuchsia-700 font-bold">ratoncita</span>.
+                    </p>
+
+                    <!-- Mini widget interactivo: Acaricia al michi lila -->
+                    <div class="pt-2 border-t border-purple-100 flex items-center justify-between gap-2">
+                        <button id="pet-michi-btn" type="button" class="flex items-center gap-2 bg-gradient-to-r from-purple-100 to-fuchsia-100 hover:from-purple-200 hover:to-fuchsia-200 active:scale-95 px-3.5 py-2 rounded-2xl border border-purple-200 transition-all cursor-pointer">
+                            <span class="text-lg">馃惐</span>
+                            <span id="pet-michi-label" class="text-xs font-bold text-purple-900">
+                                Acariciar al michi lila
+                            </span>
+                        </button>
+                        <div class="text-right">
+                            <span id="purr-counter" class="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200">
+                                0 mimos 馃挏
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 脕LBUM POLAROID 3D GIRATORIO ("Nuestros momentos") -->
+                <div class="stagger-item space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                            <span>Nuestros momentos</span>
+                            <span>馃摳</span>
+                        </h2>
+                        <div class="flex items-center gap-1.5">
+                            <button id="flip-polaroid-btn" type="button" class="text-[11px] font-bold bg-fuchsia-100 hover:bg-fuchsia-200 active:scale-95 text-purple-900 px-2.5 py-1 rounded-full border border-purple-200 transition-all cursor-pointer">
+                                Voltear nota 鈫�
+                            </button>
+                            <button id="fullscreen-photo-btn" type="button" class="text-[11px] font-bold bg-purple-100 hover:bg-purple-200 active:scale-95 text-purple-900 px-2.5 py-1 rounded-full border border-purple-200 transition-all cursor-pointer" title="Ver en pantalla completa">
+                                Ampliar 馃攳
+                            </button>
+                            <label for="custom-photo-input" class="text-[11px] font-bold bg-white hover:bg-purple-50 active:scale-95 text-purple-800 px-2.5 py-1 rounded-full border border-purple-200 transition-all cursor-pointer">
+                                + Foto
+                            </label>
+                            <input id="custom-photo-input" type="file" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Contenedor Polaroid con flechas de navegaci贸n -->
+                    <div class="relative flex items-center justify-center gap-2">
+                        <button id="prev-photo-btn" type="button" class="w-9 h-9 rounded-full bg-white/90 hover:bg-white active:scale-90 border border-purple-200 shadow-xs flex items-center justify-center text-purple-800 font-bold shrink-0 cursor-pointer" aria-label="Foto anterior">
+                            鈥�
+                        </button>
+
+                        <div class="polaroid-perspective w-full max-w-[295px] sm:max-w-[325px] py-1">
+                            <div id="polaroid-inner" class="polaroid-inner cursor-pointer" title="Toca para voltear y leer la nota secreta detr谩s">
+                                
+                                <!-- CARA FRONTAL DE LA POLAROID -->
+                                <div class="polaroid-face bg-gradient-to-b from-white to-purple-50 p-3 pb-4 rounded-2xl shadow-[0_14px_35px_rgba(88,28,135,0.2)] border-2 border-purple-200 relative">
+                                    <!-- Cintitas washi tape lila -->
+                                    <div class="absolute -top-2.5 left-5 w-14 h-5 bg-purple-300/80 -rotate-12 rounded-xs border border-white/70 shadow-2xs pointer-events-none z-10"></div>
+                                    <div class="absolute -top-2.5 right-5 w-14 h-5 bg-fuchsia-300/80 rotate-12 rounded-xs border border-white/70 shadow-2xs pointer-events-none z-10"></div>
+
+                                    <!-- Marco de foto (SVG ilustrado embebido + soporte foto real) -->
+                                    <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-purple-100 via-fuchsia-100 to-violet-200 border border-purple-200">
+                                        <img id="polaroid-img" src="" alt="Recuerdo de nosotros" class="w-full h-full object-cover">
+                                        <span id="polaroid-counter" class="absolute bottom-2 right-2 bg-purple-950/70 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                                            1 / 2
+                                        </span>
+                                    </div>
+
+                                    <div class="mt-2.5 text-center px-1">
+                                        <p id="polaroid-front-caption" class="font-handwriting text-xl sm:text-2xl text-purple-950 font-bold leading-tight">
+                                            Mi lugar favorito siempre es contigo 馃挏
+                                        </p>
+                                        <p class="text-[10px] text-purple-500 font-semibold mt-0.5">
+                                            (Toca la foto para ver el mensaje detr谩s 鉁�)
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- CARA TRASERA DE LA POLAROID (DEDICATORIA SECRETA) -->
+                                <div class="polaroid-face polaroid-back absolute inset-0 paper-dots bg-gradient-to-br from-purple-100 via-fuchsia-50 to-violet-100 p-5 rounded-2xl shadow-[0_14px_35px_rgba(88,28,135,0.2)] border-2 border-purple-300 flex flex-col items-center justify-center text-center">
+                                    <span class="text-2xl mb-1.5">馃拰</span>
+                                    <p class="text-[11px] font-bold uppercase tracking-widest text-purple-600 mb-1">
+                                        Nota secreta detr谩s de la foto
+                                    </p>
+                                    <p id="polaroid-back-note" class="font-handwriting text-2xl sm:text-[26px] text-purple-950 font-bold leading-snug">
+                                        鈥淐ontigo hasta los d铆as normales se sienten como mi recuerdo favorito.鈥�
+                                    </p>
+                                    <span class="mt-3 text-[11px] font-bold text-purple-700 bg-white/80 px-3 py-1 rounded-full border border-purple-200">
+                                        Toca para volver a la foto 鈫�
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <button id="next-photo-btn" type="button" class="w-9 h-9 rounded-full bg-white/90 hover:bg-white active:scale-90 border border-purple-200 shadow-xs flex items-center justify-center text-purple-800 font-bold shrink-0 cursor-pointer" aria-label="Siguiente foto">
+                            鈥�
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. LO QUE ME ENCANTA DE TI (6 RAZONES INTERACTIVAS) -->
+                <div class="stagger-item">
+                    <div class="bg-gradient-to-r from-purple-100/95 via-fuchsia-100/85 to-violet-100/95 rounded-2xl p-4 border border-purple-200 shadow-2xs">
+                        <div class="flex items-center justify-between gap-2 mb-1.5">
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1">
+                                <span>Lo que me encanta de ti</span>
+                                <span>鉁�</span>
+                            </span>
+                            <button id="next-reason-btn" type="button" class="text-[11px] font-bold bg-white hover:bg-purple-50 active:scale-95 text-purple-800 px-3 py-1 rounded-full border border-purple-200 shadow-2xs transition-all cursor-pointer">
+                                Otra raz贸n 鈫�
+                            </button>
+                        </div>
+                        <p id="reason-text" class="font-handwriting text-xl sm:text-2xl text-purple-950 font-bold leading-snug transition-all duration-200">
+                            鈥淭ienes una risa tan bonita que me alegra el d铆a entero apenas la escucho.鈥� 馃挏
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 4. SOBRECITOS SECRETOS PARA TI (4 MINI SOBRES LACRADOS) -->
+                <div class="stagger-item space-y-2.5">
+                    <div class="flex items-center justify-between px-1">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                            <span>Sobrecitos para ti</span>
+                            <span>馃拰</span>
+                        </h2>
+                        <span class="text-[11px] font-semibold text-purple-600">Toca uno para abrir</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2.5" id="mini-envelopes-grid">
+                        <button type="button" data-envelope="0" class="mini-env-btn text-left bg-gradient-to-br from-purple-100 to-white hover:from-purple-200/80 hover:to-purple-50 active:scale-95 p-3 rounded-2xl border border-purple-200 shadow-2xs transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-xl bg-purple-600 text-white flex items-center justify-center text-sm shrink-0 shadow-2xs">馃寵</span>
+                            <span class="text-xs font-bold text-purple-950 leading-tight">Antes de dormir</span>
+                        </button>
+
+                        <button type="button" data-envelope="1" class="mini-env-btn text-left bg-gradient-to-br from-fuchsia-100 to-white hover:from-fuchsia-200/80 hover:to-fuchsia-50 active:scale-95 p-3 rounded-2xl border border-purple-200 shadow-2xs transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-xl bg-fuchsia-600 text-white flex items-center justify-center text-sm shrink-0 shadow-2xs">馃Ц</span>
+                            <span class="text-xs font-bold text-purple-950 leading-tight">Si tuviste un d铆a pesado</span>
+                        </button>
+
+                        <button type="button" data-envelope="2" class="mini-env-btn text-left bg-gradient-to-br from-violet-100 to-white hover:from-violet-200/80 hover:to-violet-50 active:scale-95 p-3 rounded-2xl border border-purple-200 shadow-2xs transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-xl bg-violet-600 text-white flex items-center justify-center text-sm shrink-0 shadow-2xs">馃惐</span>
+                            <span class="text-xs font-bold text-purple-950 leading-tight">Cuando quieras mimos</span>
+                        </button>
+
+                        <button type="button" data-envelope="3" class="mini-env-btn text-left bg-gradient-to-br from-purple-100 to-white hover:from-purple-200/80 hover:to-purple-50 active:scale-95 p-3 rounded-2xl border border-purple-200 shadow-2xs transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-8 h-8 rounded-xl bg-purple-800 text-white flex items-center justify-center text-sm shrink-0 shadow-2xs">馃挏</span>
+                            <span class="text-xs font-bold text-purple-950 leading-tight">Cuando pienses en m铆</span>
+                        </button>
+                    </div>
+
+                    <!-- Cajita donde se despliega el mensaje del sobrecito elegido -->
+                    <div id="mini-envelope-reveal" class="hidden bg-white/95 rounded-2xl p-3.5 border-2 border-purple-300 shadow-sm transition-all">
+                        <div class="flex items-center justify-between mb-1">
+                            <span id="mini-env-title" class="text-xs font-bold text-purple-700 uppercase tracking-wide"></span>
+                            <button id="close-mini-env" type="button" class="text-xs font-bold text-purple-400 hover:text-purple-700 px-1.5 cursor-pointer">鉁�</button>
+                        </div>
+                        <p id="mini-env-body" class="font-handwriting text-xl sm:text-2xl text-purple-950 font-bold leading-snug"></p>
+                    </div>
+                </div>
+
+                <!-- 5. VALES ESPECIALES PARA NAYU (3 CUPONES CANJEABLES) -->
+                <div class="stagger-item space-y-2.5">
+                    <div class="flex items-center justify-between px-1">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-purple-900 flex items-center gap-1.5">
+                            <span>Vales especiales para Nayu</span>
+                            <span>馃師锔�</span>
+                        </h2>
+                        <span class="text-[11px] font-semibold text-purple-600">Toca para canjear</span>
+                    </div>
+
+                    <div class="space-y-2" id="vouchers-list">
+                        <div data-voucher="0" class="voucher-card cursor-pointer bg-white/90 hover:bg-purple-50/90 active:scale-[0.99] rounded-2xl p-3 border-2 border-dashed border-purple-300 flex items-center justify-between gap-3 transition-all">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-2xl">馃珎</span>
+                                <div>
+                                    <p class="text-xs sm:text-sm font-bold text-purple-950">Vale por un abrazo largo</p>
+                                    <p class="text-[11px] text-purple-600 font-medium">Sin l铆mite de tiempo ni fecha de vencimiento</p>
+                                </div>
+                            </div>
+                            <span class="voucher-badge shrink-0 text-[11px] font-bold px-3 py-1 rounded-full bg-purple-600 text-white">
+                                Canjear
+                            </span>
+                        </div>
+
+                        <div data-voucher="1" class="voucher-card cursor-pointer bg-white/90 hover:bg-purple-50/90 active:scale-[0.99] rounded-2xl p-3 border-2 border-dashed border-fuchsia-300 flex items-center justify-between gap-3 transition-all">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-2xl">馃崜</span>
+                                <div>
+                                    <p class="text-xs sm:text-sm font-bold text-purple-950">Vale por tu antojo favorito</p>
+                                    <p class="text-[11px] text-purple-600 font-medium">Lo que t煤 elijas para consentirte, ratoncita</p>
+                                </div>
+                            </div>
+                            <span class="voucher-badge shrink-0 text-[11px] font-bold px-3 py-1 rounded-full bg-fuchsia-600 text-white">
+                                Canjear
+                            </span>
+                        </div>
+
+                        <div data-voucher="2" class="voucher-card cursor-pointer bg-white/90 hover:bg-purple-50/90 active:scale-[0.99] rounded-2xl p-3 border-2 border-dashed border-violet-300 flex items-center justify-between gap-3 transition-all">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-2xl">馃憫</span>
+                                <div>
+                                    <p class="text-xs sm:text-sm font-bold text-purple-950">Vale por tarde de consentirte</p>
+                                    <p class="text-[11px] text-purple-600 font-medium">Mimos, risas y todo a tu gusto</p>
+                                </div>
+                            </div>
+                            <span class="voucher-badge shrink-0 text-[11px] font-bold px-3 py-1 rounded-full bg-violet-600 text-white">
+                                Canjear
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- PIE DE CARTA: BOT脫N AL CIELO NOCTURNO LILA -->
+            <div class="px-4 sm:px-6 py-3.5 bg-purple-100/90 border-t border-purple-200 flex items-center justify-between gap-2.5 shrink-0">
+                <button id="close-letter-btn" type="button" class="px-3.5 py-2.5 rounded-xl bg-white hover:bg-purple-50 active:scale-95 text-purple-900 font-bold text-xs sm:text-sm border border-purple-200 shadow-2xs transition-all cursor-pointer">
+                    Guardar 馃拰
+                </button>
+
+                <button id="night-sky-btn" type="button" class="flex-1 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-800 via-violet-600 to-fuchsia-500 hover:from-purple-700 hover:to-fuchsia-400 active:scale-95 text-white font-bold text-xs sm:text-sm shadow-md shadow-purple-400/50 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <span>Nuestro cielo lila 鉁�</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         MODAL DE VISTA AMPLIADA DE FOTO (LIGHTBOX)
+         ========================================================= -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-purple-950/85 backdrop-blur-md">
+        <div class="relative max-w-md w-full bg-white p-3.5 pb-5 rounded-3xl shadow-2xl border-2 border-purple-300">
+            <button id="close-lightbox-btn" type="button" class="absolute -top-3 -right-3 w-9 h-9 rounded-full bg-purple-700 text-white font-bold shadow-md flex items-center justify-center cursor-pointer">
+                鉁�
+            </button>
+            <div class="w-full aspect-[4/3] rounded-2xl overflow-hidden bg-purple-100">
+                <img id="lightbox-img" src="" alt="Foto ampliada" class="w-full h-full object-cover">
+            </div>
+            <p id="lightbox-caption" class="font-handwriting text-2xl sm:text-3xl text-purple-950 font-bold text-center mt-3"></p>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         ESCENA 3: NUESTRO CIELO LILA 鉁� (CONSTELACI脫N DE CORAZ脫N INTERACTIVA)
+         ========================================================= -->
+    <div id="sky-stage" class="fixed inset-0 z-50 opacity-0 pointer-events-none transition-opacity duration-300 bg-gradient-to-b from-[#120624] via-[#270f49] to-[#411670] flex flex-col justify-between p-4 sm:p-6 overflow-hidden">
+        
+        <canvas id="sky-canvas" class="fixed inset-0 w-full h-full cursor-crosshair"></canvas>
+
+        <!-- Barra superior del cielo -->
+        <div class="relative z-10 flex items-center justify-between gap-2">
+            <div class="bg-white/10 backdrop-blur-md border border-purple-300/30 px-3.5 py-1.5 rounded-full text-purple-100 text-xs sm:text-sm font-semibold">
+                鉁� Toca el cielo para encender estrellas, Nayu
+            </div>
+            <button id="close-sky-btn" type="button" class="bg-white/95 hover:bg-white active:scale-95 text-purple-950 font-bold text-xs sm:text-sm px-4 py-2 rounded-full shadow-md transition-all cursor-pointer">
+                Volver 馃挏
+            </button>
+        </div>
+
+        <!-- Tarjeta rom谩ntica inferior -->
+        <div class="relative z-10 max-w-md mx-auto w-full bg-white/12 backdrop-blur-xl border border-purple-200/30 rounded-3xl p-4 sm:p-5 text-center text-white shadow-[0_0_50px_rgba(192,132,252,0.35)]">
+            <p class="font-script text-2xl sm:text-3xl text-fuchsia-200 font-bold mb-1">
+                Para mi ratoncita, Nayu 馃挏
+            </p>
+            <p id="sky-quote" class="font-handwriting text-xl sm:text-2xl text-purple-100 leading-snug mb-3">
+                鈥淐ada estrellita que enciendes aqu铆 es una raz贸n por la que me encantas.鈥� 鉁�
+            </p>
+            <div class="flex items-center justify-center gap-2">
+                <button id="complete-heart-btn" type="button" class="px-4 py-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-purple-600 hover:from-fuchsia-400 hover:to-purple-500 active:scale-95 text-white text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer">
+                    Iluminar coraz贸n 馃尃
+                </button>
+                <button id="next-sky-quote-btn" type="button" class="px-3.5 py-2 rounded-full bg-white/15 hover:bg-white/25 active:scale-95 border border-purple-200/40 text-purple-100 text-xs sm:text-sm font-bold transition-all cursor-pointer">
+                    Otro mensaje 馃挮
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referencias principales
+            const ambientCanvas = document.getElementById('ambient-canvas');
+            const ambientCtx = ambientCanvas.getContext('2d');
+            const topHint = document.getElementById('top-hint');
+            const topBackBtn = document.getElementById('top-back-btn');
+
+            // Personajes portada
+            const charactersStage = document.getElementById('characters-stage');
+            const charactersSvg = document.getElementById('characters-svg');
+            const speechBubble = document.getElementById('speech-bubble');
+            const speechText = document.getElementById('speech-text');
+
+            // Sobre y carta
+            const envelopeBox = document.getElementById('envelope-box');
+            const waxSeal = document.getElementById('wax-seal');
+            const letterStage = document.getElementById('letter-stage');
+            const letterCard = document.getElementById('letter-card');
+            const staggerItems = document.querySelectorAll('.stagger-item');
+            const closeLetterBtn = document.getElementById('close-letter-btn');
+
+            // M煤sica ("The Reason" - Hoobastank)
+            const musicToggleBtn = document.getElementById('music-toggle-btn');
+            const musicBtnText = document.getElementById('music-btn-text');
+            const eqBars = document.getElementById('eq-bars');
+            const externalAudio = document.getElementById('external-audio');
+
+            // Michi interactive pet
+            const petMichiBtn = document.getElementById('pet-michi-btn');
+            const petMichiLabel = document.getElementById('pet-michi-label');
+            const purrCounter = document.getElementById('purr-counter');
+
+            // 脕lbum Polaroid 3D
+            const polaroidInner = document.getElementById('polaroid-inner');
+            const polaroidImg = document.getElementById('polaroid-img');
+            const polaroidCounter = document.getElementById('polaroid-counter');
+            const polaroidFrontCaption = document.getElementById('polaroid-front-caption');
+            const polaroidBackNote = document.getElementById('polaroid-back-note');
+            const flipPolaroidBtn = document.getElementById('flip-polaroid-btn');
+            const prevPhotoBtn = document.getElementById('prev-photo-btn');
+            const nextPhotoBtn = document.getElementById('next-photo-btn');
+            const customPhotoInput = document.getElementById('custom-photo-input');
+            const fullscreenPhotoBtn = document.getElementById('fullscreen-photo-btn');
+
+            // Lightbox
+            const lightboxModal = document.getElementById('lightbox-modal');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeLightboxBtn = document.getElementById('close-lightbox-btn');
+
+            // Razones
+            const nextReasonBtn = document.getElementById('next-reason-btn');
+            const reasonText = document.getElementById('reason-text');
+
+            // Sobrecitos secretos
+            const miniEnvBtns = document.querySelectorAll('.mini-env-btn');
+            const miniEnvelopeReveal = document.getElementById('mini-envelope-reveal');
+            const miniEnvTitle = document.getElementById('mini-env-title');
+            const miniEnvBody = document.getElementById('mini-env-body');
+            const closeMiniEnv = document.getElementById('close-mini-env');
+
+            // Vales
+            const voucherCards = document.querySelectorAll('.voucher-card');
+
+            // Cielo lila
+            const nightSkyBtn = document.getElementById('night-sky-btn');
+            const skyStage = document.getElementById('sky-stage');
+            const skyCanvas = document.getElementById('sky-canvas');
+            const skyCtx = skyCanvas.getContext('2d');
+            const closeSkyBtn = document.getElementById('close-sky-btn');
+            const completeHeartBtn = document.getElementById('complete-heart-btn');
+            const nextSkyQuoteBtn = document.getElementById('next-sky-quote-btn');
+            const skyQuote = document.getElementById('sky-quote');
+
+            let isLetterOpen = false;
+            let speechIdx = 0;
+            let purrCount = 0;
+            let photoIdx = 0;
+            let isPolaroidFlipped = false;
+            let reasonIdx = 0;
+            let skyQuoteIdx = 0;
+
+            // Frases tiernas de Snoopy y el Michi al tocarlos
+            const characterQuotes = [
+                '隆Miau miau ratoncita! 馃惐馃挏',
+                '隆Te quieren mucho, Nayu! 馃惥鉁�',
+                'Snoopy te manda un abracito 馃惗馃挏',
+                '隆Purrrr... eres la m谩s linda! 馃惌馃尭'
+            ];
+
+            // Ilustraciones SVG embebidas de alta calidad como marcos rom谩nticos iniciales (y reemplazables por foto1.jpg / foto2.jpg o galer铆a)
+            function createRomanticFrameSVG(title, subtitle, emojiLeft, emojiRight, bg1, bg2) {
+                const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450">
+                    <defs>
+                        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${bg1}"/>
+                            <stop offset="100%" stop-color="${bg2}"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="600" height="450" fill="url(#g)"/>
+                    <circle cx="95" cy="85" r="55" fill="#ffffff" opacity="0.25"/>
+                    <circle cx="515" cy="365" r="75" fill="#ffffff" opacity="0.22"/>
+                    <rect x="34" y="34" width="532" height="382" rx="28" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="12 10" opacity="0.75"/>
+                    <text x="300" y="185" font-size="68" text-anchor="middle">${emojiLeft} 馃挏 ${emojiRight}</text>
+                    <text x="300" y="265" font-family="Georgia, serif" font-weight="bold" font-size="34" fill="#3b0764" text-anchor="middle">${title}</text>
+                    <text x="300" y="312" font-family="sans-serif" font-weight="600" font-size="20" fill="#6b21a8" text-anchor="middle">${subtitle}</text>
+                </svg>`;
+                return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+            }
+
+            const albumPhotos = [
+                {
+                    src: createRomanticFrameSVG('T煤 & Yo + Snoopy', 'Toca "+ Foto" para poner nuestra foto favorita', '馃惗', '馃惌', '#f3e8ff', '#d8b4fe'),
+                    customFile: 'foto1.jpg',
+                    caption: 'Mi lugar favorito siempre es contigo 馃挏',
+                    backNote: '鈥淐ontigo hasta los momentos m谩s simples se vuelven mi recuerdo favorito, ratoncita.鈥� 馃挏'
+                },
+                {
+                    src: createRomanticFrameSVG('Mi Ratoncita Preciosa', 'Nuestro rinc贸n de mimos, risas y michis', '馃惐', '馃憫', '#fae8ff', '#c084fc'),
+                    customFile: 'foto2.jpg',
+                    caption: 'Eres lo m谩s bonito que me pas贸 馃惌鉁�',
+                    backNote: '鈥淢e encanta verte sonre铆r y saber que tengo la suerte de tenerte en mi vida, Nayu.鈥� 鉁�'
+                }
+            ];
+
+            // Intentar cargar autom谩ticamente foto1.jpg o foto2.jpg si existen junto al archivo en GitHub
+            albumPhotos.forEach((item, index) => {
+                const probe = new Image();
+                probe.onload = () => {
+                    albumPhotos[index].src = item.customFile;
+                    if (photoIdx === index) renderPolaroid();
+                };
+                probe.src = item.customFile;
+            });
+
+            // 6 Razones rom谩nticas
+            const reasonsList = [
+                '鈥淭ienes una risa tan bonita que me alegra el d铆a entero apenas la escucho.鈥� 馃挏',
+                '鈥淢e encanta tu ternura y esa forma tan dulce que tienes de hacerme sentir especial.鈥� 鉁�',
+                '鈥淓res tan aut茅ntica y linda que contigo cualquier momento se vuelve m谩gico, ratoncita.鈥� 馃惌',
+                '鈥淢e fascina tu coraz贸n tan noble y lo bien que se siente compartir todo contigo.鈥� 馃',
+                '鈥淐ada mensaje tuyo me deja con una sonrisa tonta todo el d铆a.鈥� 馃挮',
+                '鈥淪implemente me encantas de pies a cabeza, Nayu.鈥� 馃挏'
+            ];
+
+            // 4 Sobrecitos secretos
+            const miniEnvelopesData = [
+                {
+                    title: '馃寵 Antes de dormir',
+                    body: '鈥淒escansa bonito, mi ratoncita. Que sue帽es lindo y nunca olvides lo much铆simo que me encantas.鈥� 馃挏'
+                },
+                {
+                    title: '馃Ц Si tuviste un d铆a pesado',
+                    body: '鈥淩espira hondo, hoy lo hiciste incre铆ble. Aqu铆 tienes todo mi cari帽o para recargarte de abrazos y mimos.鈥� 馃珎鉁�'
+                },
+                {
+                    title: '馃惐 Cuando quieras mimos',
+                    body: '鈥淢iau miau ratoncita: este sobrecito incluye mimos infinitos, caricias en la cabecita y todo mi amor.鈥� 馃惥馃挏'
+                },
+                {
+                    title: '馃挏 Cuando pienses en m铆',
+                    body: '鈥淪eguro yo tambi茅n estoy pensando en ti con una sonrisa, recordando lo mucho que me gustas, Nayu.鈥� 馃惌馃挮'
+                }
+            ];
+
+            // Mensajes del cielo nocturno
+            const skyQuotesList = [
+                '鈥淐ada estrellita que enciendes aqu铆 es una raz贸n por la que me encantas.鈥� 鉁�',
+                '鈥淏ajo este cielo lila solo pienso en lo feliz que me haces, Nayu.鈥� 馃挏',
+                '鈥淓res mi persona favorita, mi ratoncita preciosa.鈥� 馃惌馃尃',
+                '鈥淨ue nunca se te olvide lo especial que eres para m铆.鈥� 馃馃挮'
+            ];
+
+            /* =========================================================
+               1. MOTOR DE PART脥CULAS A 60FPS EN CANVAS
+               ========================================================= */
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            function resizeCanvases() {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+                ambientCanvas.width = width * dpr;
+                ambientCanvas.height = height * dpr;
+                ambientCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                skyCanvas.width = width * dpr;
+                skyCanvas.height = height * dpr;
+                skyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            }
+            window.addEventListener('resize', resizeCanvases);
+            resizeCanvases();
+
+            const ambientParticles = [];
+            const burstParticles = [];
+            const palette = ['#d8b4fe', '#c084fc', '#f0abfc', '#e879f9', '#a855f7', '#ffffff'];
+
+            for (let i = 0; i < 45; i++) {
+                ambientParticles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: Math.random() * 5.5 + 3,
+                    speedY: -(Math.random() * 0.65 + 0.3),
+                    speedX: (Math.random() - 0.5) * 0.45,
+                    wobble: Math.random() * Math.PI * 2,
+                    wobbleSpeed: Math.random() * 0.025 + 0.012,
+                    rot: Math.random() * Math.PI * 2,
+                    rotSpeed: (Math.random() - 0.5) * 0.025,
+                    kind: i % 3 === 0 ? 'star' : (i % 2 === 0 ? 'petal' : 'heart'),
+                    color: palette[i % palette.length],
+                    alpha: Math.random() * 0.55 + 0.35
+                });
+            }
+
+            function drawHeart(ctx, x, y, size, color, alpha, rot = 0) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rot);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                const s = size * 0.62;
+                ctx.moveTo(0, s * 0.4);
+                ctx.bezierCurveTo(-s, -s * 0.4, -s * 1.4, s * 0.6, 0, s * 1.4);
+                ctx.bezierCurveTo(s * 1.4, s * 0.6, s, -s * 0.4, 0, s * 0.4);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function drawPetal(ctx, x, y, size, color, alpha, rot) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rot);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, size * 0.52, size * 1.08, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function drawStar(ctx, x, y, size, color, alpha, rot) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rot);
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                for (let i = 0; i < 4; i++) {
+                    ctx.rotate(Math.PI / 2);
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(size * 0.22, size * 0.22, 0, size * 1.35);
+                    ctx.quadraticCurveTo(-size * 0.22, size * 0.22, 0, 0);
+                }
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function spawnBurst(x, y, count = 14) {
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.45;
+                    const speed = Math.random() * 4.5 + 2;
+                    burstParticles.push({
+                        x,
+                        y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed - 1.3,
+                        size: Math.random() * 6 + 4,
+                        life: 1,
+                        decay: Math.random() * 0.022 + 0.016,
+                        color: palette[Math.floor(Math.random() * palette.length)],
+                        isHeart: i % 2 === 0,
+                        rot: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+
+            function ambientLoop() {
+                ambientCtx.clearRect(0, 0, width, height);
+
+                for (let p of ambientParticles) {
+                    p.wobble += p.wobbleSpeed;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.42;
+                    p.y += p.speedY;
+                    p.rot += p.rotSpeed;
+
+                    if (p.y < -20) {
+                        p.y = height + 20;
+                        p.x = Math.random() * width;
+                    }
+                    if (p.x < -20) p.x = width + 20;
+                    if (p.x > width + 20) p.x = -20;
+
+                    if (p.kind === 'heart') {
+                        drawHeart(ambientCtx, p.x, p.y, p.size, p.color, p.alpha, p.rot * 0.25);
+                    } else if (p.kind === 'petal') {
+                        drawPetal(ambientCtx, p.x, p.y, p.size, p.color, p.alpha, p.rot);
+                    } else {
+                        drawStar(ambientCtx, p.x, p.y, p.size, '#ffffff', p.alpha, p.rot);
+                    }
+                }
+
+                for (let i = burstParticles.length - 1; i >= 0; i--) {
+                    const b = burstParticles[i];
+                    b.x += b.vx;
+                    b.y += b.vy;
+                    b.vy += 0.08;
+                    b.life -= b.decay;
+                    b.rot += 0.05;
+
+                    if (b.life <= 0) {
+                        burstParticles.splice(i, 1);
+                        continue;
+                    }
+
+                    if (b.isHeart) {
+                        drawHeart(ambientCtx, b.x, b.y, b.size, b.color, b.life, b.rot * 0.3);
+                    } else {
+                        drawStar(ambientCtx, b.x, b.y, b.size, b.color, b.life, b.rot);
+                    }
+                }
+
+                requestAnimationFrame(ambientLoop);
+            }
+            requestAnimationFrame(ambientLoop);
+
+            /* =========================================================
+               2. ARREGLO MUSICAL DE "THE REASON" (HOOBASTANK) - WEB AUDIO API + SOPORTE ARCHIVO
+               ========================================================= */
+            let audioCtx = null;
+            let isMusicPlaying = false;
+            let seqTimer = null;
+            let stepIndex = 0;
+            let usingExternalFile = false;
+
+            // Arreglo en Mi Mayor (E major) de la melod铆a y acordes ic贸nicos de "The Reason" - Hoobastank
+            // Cada paso representa una corchea (~290ms)
+            const theReasonScore = [
+                // Comp谩s 1-2: Acorde E (E3 + B3) + Melod铆a ("I'm not a perfect person...")
+                { chord: [164.81, 246.94], mel: 329.63 }, // E4
+                { chord: null,             mel: 329.63 }, // E4
+                { chord: [246.94],         mel: 369.99 }, // F#4
+                { chord: null,             mel: 415.30 }, // G#4
+                { chord: [164.81, 246.94], mel: 369.99 }, // F#4
+                { chord: null,             mel: 329.63 }, // E4
+                { chord: [246.94],         mel: 293.66 }, // D#4 (311.13)
+                { chord: null,             mel: 329.63 }, // E4
+
+                // Comp谩s 3-4: Acorde C#m7 (C#3 + G#3) + Melod铆a ("There's many things I wish I didn't do...")
+                { chord: [138.59, 207.65], mel: 329.63 }, // E4
+                { chord: null,             mel: 329.63 }, // E4
+                { chord: [207.65],         mel: 369.99 }, // F#4
+                { chord: null,             mel: 415.30 }, // G#4
+                { chord: [138.59, 207.65], mel: 493.88 }, // B4
+                { chord: null,             mel: 415.30 }, // G#4
+                { chord: [207.65],         mel: 369.99 }, // F#4
+                { chord: null,             mel: 329.63 }, // E4
+
+                // Comp谩s 5-6: Acorde Aadd9 (A2 + E3) + Estribillo ("And the reason is you...")
+                { chord: [110.00, 164.81], mel: 415.30 }, // G#4
+                { chord: null,             mel: 493.88 }, // B4
+                { chord: [164.81],         mel: 554.37 }, // C#5
+                { chord: null,             mel: 493.88 }, // B4
+                { chord: [110.00, 164.81], mel: 415.30 }, // G#4
+                { chord: null,             mel: 369.99 }, // F#4
+                { chord: [164.81],         mel: 329.63 }, // E4
+                { chord: null,             mel: null   },
+
+                // Comp谩s 7-8: Acorde Bsus4 -> B (B2 + F#3) -> Resuelve a E
+                { chord: [123.47, 185.00], mel: 369.99 }, // F#4
+                { chord: null,             mel: 415.30 }, // G#4
+                { chord: [185.00],         mel: 493.88 }, // B4
+                { chord: null,             mel: 415.30 }, // G#4
+                { chord: [123.47, 185.00], mel: 369.99 }, // F#4
+                { chord: null,             mel: 311.13 }, // D#4
+                { chord: [185.00],         mel: 329.63 }, // E4
+                { chord: null,             mel: null   }
+            ];
+
+            function playElectricPianoTone(freq, isMelody = false) {
+                if (!audioCtx || !freq) return;
+                const now = audioCtx.currentTime;
+
+                const osc1 = audioCtx.createOscillator();
+                const osc2 = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                // Timbre c谩lido de piano el茅ctrico / cajita musical
+                osc1.type = 'sine';
+                osc2.type = 'triangle';
+                osc1.frequency.setValueAtTime(freq, now);
+                osc2.frequency.setValueAtTime(freq * 2, now);
+
+                const subGain = audioCtx.createGain();
+                subGain.gain.setValueAtTime(isMelody ? 0.14 : 0.08, now);
+                osc2.connect(subGain);
+
+                const peak = isMelody ? 0.075 : 0.038;
+                const duration = isMelody ? 1.15 : 1.5;
+
+                gain.gain.setValueAtTime(0.0001, now);
+                gain.gain.exponentialRampToValueAtTime(peak, now + 0.025);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+                osc1.connect(gain);
+                subGain.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc1.start(now);
+                osc2.start(now);
+                osc1.stop(now + duration + 0.05);
+                osc2.stop(now + duration + 0.05);
+            }
+
+            function stepMelody() {
+                if (!isMusicPlaying || usingExternalFile) return;
+                const step = theReasonScore[stepIndex % theReasonScore.length];
+                if (step.chord) {
+                    step.chord.forEach(f => playElectricPianoTone(f, false));
+                }
+                if (step.mel) {
+                    playElectricPianoTone(step.mel, true);
+                }
+                stepIndex++;
+            }
+
+            function toggleMusic() {
+                if (isMusicPlaying) {
+                    isMusicPlaying = false;
+                    clearInterval(seqTimer);
+                    externalAudio.pause();
+                    eqBars.classList.remove('music-active');
+                    musicBtnText.textContent = 'The Reason 馃幍';
+                    return;
+                }
+
+                isMusicPlaying = true;
+                eqBars.classList.add('music-active');
+                musicBtnText.textContent = 'Sonando 馃挏';
+
+                // Si existe the-reason.mp3 o the-reason.wav en GitHub, reproducirlo; si no, tocar el arreglo Web Audio inmediatamente
+                const playPromise = externalAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        usingExternalFile = true;
+                    }).catch(() => {
+                        usingExternalFile = false;
+                        startSynthMelody();
+                    });
+                } else {
+                    startSynthMelody();
+                }
+            }
+
+            function startSynthMelody() {
+                if (!audioCtx) {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    audioCtx = new AudioContextClass();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                stepMelody();
+                clearInterval(seqTimer);
+                seqTimer = setInterval(stepMelody, 310);
+            }
+
+            musicToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMusic();
+            });
+
+            /* =========================================================
+               3. INTERACCI脫N CON SNOOPY, WOODSTOCK Y EL MICHI LILA
+               ========================================================= */
+            let speechTimeout = null;
+            charactersStage.addEventListener('click', (e) => {
+                e.stopPropagation();
+                charactersSvg.classList.remove('characters-hop');
+                void charactersSvg.offsetWidth;
+                charactersSvg.classList.add('characters-hop');
+
+                speechText.textContent = characterQuotes[speechIdx % characterQuotes.length];
+                speechIdx++;
+
+                speechBubble.classList.remove('hidden', 'speech-bubble-anim');
+                void speechBubble.offsetWidth;
+                speechBubble.classList.add('speech-bubble-anim');
+
+                clearTimeout(speechTimeout);
+                speechTimeout = setTimeout(() => {
+                    speechBubble.classList.add('hidden');
+                }, 2400);
+
+                spawnBurst(e.clientX, e.clientY, 18);
+            });
+
+            /* =========================================================
+               4. APERTURA Y CIERRE DEL SOBRE 3D
+               ========================================================= */
+            function openLetter(x, y) {
+                if (isLetterOpen) return;
+                isLetterOpen = true;
+
+                spawnBurst(x || width / 2, y || height / 2, 24);
+                topHint.style.opacity = '0';
+                waxSeal.style.opacity = '0';
+                waxSeal.style.transform = 'translate(-50%, -50%) scale(0.3)';
+
+                envelopeBox.classList.remove('envelope-float');
+                envelopeBox.classList.add('envelope-open');
+
+                setTimeout(() => {
+                    letterStage.classList.remove('opacity-0', 'pointer-events-none');
+                    letterCard.classList.add('active');
+
+                    topBackBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+
+                    staggerItems.forEach((item, idx) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, 60 + idx * 85);
+                    });
+                }, 260);
+            }
+
+            function closeLetter() {
+                if (!isLetterOpen) return;
+                isLetterOpen = false;
+
+                staggerItems.forEach(item => item.classList.remove('visible'));
+                letterCard.classList.remove('active');
+                letterStage.classList.add('opacity-0', 'pointer-events-none');
+                topBackBtn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+
+                setTimeout(() => {
+                    envelopeBox.classList.remove('envelope-open');
+                    envelopeBox.classList.add('envelope-float');
+                    waxSeal.style.opacity = '1';
+                    waxSeal.style.transform = 'translate(-50%, -50%) scale(1)';
+                    topHint.style.opacity = '1';
+                }, 240);
+            }
+
+            envelopeBox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openLetter(e.clientX, e.clientY);
+            });
+
+            document.body.addEventListener('click', (e) => {
+                spawnBurst(e.clientX, e.clientY, 10);
+                if (!isLetterOpen) {
+                    openLetter(e.clientX, e.clientY);
+                }
+            });
+
+            closeLetterBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLetter();
+            });
+
+            topBackBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLetter();
+            });
+
+            /* =========================================================
+               5. WIDGET "ACARICIA AL MICHI LILA" (RONRONEO SUAVE + CONTADOR)
+               ========================================================= */
+            function playGentlePurr() {
+                try {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    const ctx = audioCtx || new AudioContextClass();
+                    if (ctx.state === 'suspended') ctx.resume();
+
+                    const now = ctx.currentTime;
+                    const osc = ctx.createOscillator();
+                    const lfo = ctx.createOscillator();
+                    const lfoGain = ctx.createGain();
+                    const mainGain = ctx.createGain();
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(52, now);
+
+                    lfo.type = 'sine';
+                    lfo.frequency.setValueAtTime(26, now);
+                    lfoGain.gain.setValueAtTime(0.03, now);
+
+                    mainGain.gain.setValueAtTime(0.001, now);
+                    mainGain.gain.linearRampToValueAtTime(0.04, now + 0.08);
+                    mainGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+                    lfo.connect(lfoGain);
+                    lfoGain.connect(mainGain.gain);
+                    osc.connect(mainGain);
+                    mainGain.connect(ctx.destination);
+
+                    osc.start(now);
+                    lfo.start(now);
+                    osc.stop(now + 0.48);
+                    lfo.stop(now + 0.48);
+                } catch (_) {}
+            }
+
+            const purrPhrases = [
+                'Purrrr... qu茅 rico 馃惐馃挏',
+                '隆M谩s mimitos! 馃惥',
+                'El michi te ama, Nayu 馃挏',
+                'Ronroneo feliz 鉁�'
+            ];
+
+            petMichiBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                purrCount++;
+                purrCounter.textContent = `${purrCount} ${purrCount === 1 ? 'mimo' : 'mimos'} 馃挏`;
+                petMichiLabel.textContent = purrPhrases[(purrCount - 1) % purrPhrases.length];
+                playGentlePurr();
+                spawnBurst(e.clientX, e.clientY, 12);
+            });
+
+            /* =========================================================
+               6. 脕LBUM POLAROID 3D GIRATORIO + LIGHTBOX + CARGA DE FOTOS
+               ========================================================= */
+            function renderPolaroid() {
+                const current = albumPhotos[photoIdx];
+                polaroidImg.src = current.src;
+                polaroidFrontCaption.textContent = current.caption;
+                polaroidBackNote.textContent = current.backNote;
+                polaroidCounter.textContent = `${photoIdx + 1} / ${albumPhotos.length}`;
+            }
+            renderPolaroid();
+
+            function togglePolaroidFlip() {
+                isPolaroidFlipped = !isPolaroidFlipped;
+                polaroidInner.classList.toggle('flipped', isPolaroidFlipped);
+            }
+
+            polaroidInner.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePolaroidFlip();
+            });
+
+            flipPolaroidBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                togglePolaroidFlip();
+            });
+
+            prevPhotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isPolaroidFlipped = false;
+                polaroidInner.classList.remove('flipped');
+                photoIdx = (photoIdx - 1 + albumPhotos.length) % albumPhotos.length;
+                renderPolaroid();
+                spawnBurst(e.clientX, e.clientY, 8);
+            });
+
+            nextPhotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isPolaroidFlipped = false;
+                polaroidInner.classList.remove('flipped');
+                photoIdx = (photoIdx + 1) % albumPhotos.length;
+                renderPolaroid();
+                spawnBurst(e.clientX, e.clientY, 8);
+            });
+
+            customPhotoInput.addEventListener('change', (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    albumPhotos[photoIdx].src = ev.target.result;
+                    isPolaroidFlipped = false;
+                    polaroidInner.classList.remove('flipped');
+                    renderPolaroid();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Vista ampliada Lightbox
+            fullscreenPhotoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const current = albumPhotos[photoIdx];
+                lightboxImg.src = current.src;
+                lightboxCaption.textContent = current.caption;
+                lightboxModal.classList.remove('hidden');
+                lightboxModal.classList.add('flex');
+            });
+
+            closeLightboxBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                lightboxModal.classList.add('hidden');
+                lightboxModal.classList.remove('flex');
+            });
+
+            lightboxModal.addEventListener('click', (e) => {
+                if (e.target === lightboxModal) {
+                    lightboxModal.classList.add('hidden');
+                    lightboxModal.classList.remove('flex');
+                }
+            });
+
+            /* =========================================================
+               7. RAZONES ROTATIVAS, SOBRECITOS SECRETOS Y VALES CANJEABLES
+               ========================================================= */
+            nextReasonBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                spawnBurst(e.clientX, e.clientY, 10);
+                reasonText.style.opacity = '0';
+                reasonText.style.transform = 'translateY(4px)';
+                setTimeout(() => {
+                    reasonIdx = (reasonIdx + 1) % reasonsList.length;
+                    reasonText.textContent = reasonsList[reasonIdx];
+                    reasonText.style.opacity = '1';
+                    reasonText.style.transform = 'translateY(0)';
+                }, 150);
+            });
+
+            // Sobrecitos secretos
+            miniEnvBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = Number(btn.dataset.envelope);
+                    const data = miniEnvelopesData[idx];
+                    miniEnvTitle.textContent = data.title;
+                    miniEnvBody.textContent = data.body;
+                    miniEnvelopeReveal.classList.remove('hidden');
+                    spawnBurst(e.clientX, e.clientY, 12);
+                });
+            });
+
+            closeMiniEnv.addEventListener('click', (e) => {
+                e.stopPropagation();
+                miniEnvelopeReveal.classList.add('hidden');
+            });
+
+            // Vales canjeables
+            voucherCards.forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const badge = card.querySelector('.voucher-badge');
+                    const isRedeemed = card.classList.contains('redeemed');
+                    if (!isRedeemed) {
+                        card.classList.add('redeemed', 'bg-purple-100/90');
+                        badge.textContent = 'Canjeado 馃挏';
+                        badge.classList.remove('bg-purple-600', 'bg-fuchsia-600', 'bg-violet-600');
+                        badge.classList.add('bg-emerald-600');
+                        spawnBurst(e.clientX, e.clientY, 18);
+                    } else {
+                        card.classList.remove('redeemed', 'bg-purple-100/90');
+                        badge.textContent = 'Canjear';
+                        badge.classList.remove('bg-emerald-600');
+                        badge.classList.add('bg-purple-600');
+                    }
+                });
+            });
+
+            /* =========================================================
+               8. NUESTRO CIELO LILA 鉁� (CONSTELACI脫N DE CORAZ脫N INTERACTIVA)
+               ========================================================= */
+            let isSkyActive = false;
+            let skyFrame = null;
+            const bgStars = [];
+            const userStars = [];
+            const heartNodes = [];
+            const shootingStars = [];
+
+            for (let i = 0; i < 100; i++) {
+                bgStars.push({
+                    x: Math.random(),
+                    y: Math.random(),
+                    r: Math.random() * 1.8 + 0.5,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: Math.random() * 0.04 + 0.02
+                });
+            }
+
+            function buildHeartConstellation() {
+                heartNodes.length = 0;
+                const total = 24;
+                const cx = width * 0.5;
+                const cy = height * 0.42;
+                const scale = Math.min(width, height) * 0.017;
+
+                for (let i = 0; i < total; i++) {
+                    const t = (Math.PI * 2 * i) / total;
+                    const hx = 16 * Math.pow(Math.sin(t), 3);
+                    const hy = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+                    heartNodes.push({
+                        x: cx + hx * scale,
+                        y: cy + hy * scale,
+                        lit: false,
+                        pulse: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+
+            function spawnShootingStar() {
+                shootingStars.push({
+                    x: Math.random() * width * 0.9 + width * 0.1,
+                    y: Math.random() * height * 0.35,
+                    vx: -(Math.random() * 9 + 8),
+                    vy: Math.random() * 5 + 4,
+                    life: 1
+                });
+            }
+
+            function lightStars(count = 3, tx = null, ty = null) {
+                if (tx !== null && ty !== null) {
+                    userStars.push({ x: tx, y: ty, r: Math.random() * 2.5 + 2.5, alpha: 1 });
+                    if (userStars.length > 36) userStars.shift();
+                }
+                let lit = 0;
+                for (let n of heartNodes) {
+                    if (!n.lit) {
+                        n.lit = true;
+                        lit++;
+                        if (lit >= count) break;
+                    }
+                }
+                if (Math.random() < 0.45) spawnShootingStar();
+            }
+
+            function skyLoop() {
+                if (!isSkyActive) return;
+                skyCtx.clearRect(0, 0, width, height);
+
+                for (let s of bgStars) {
+                    s.phase += s.speed;
+                    const alpha = 0.3 + Math.abs(Math.sin(s.phase)) * 0.7;
+                    skyCtx.fillStyle = `rgba(245, 208, 254, ${alpha})`;
+                    skyCtx.beginPath();
+                    skyCtx.arc(s.x * width, s.y * height, s.r, 0, Math.PI * 2);
+                    skyCtx.fill();
+                }
+
+                // L铆neas del coraz贸n
+                skyCtx.save();
+                skyCtx.strokeStyle = 'rgba(232, 121, 249, 0.58)';
+                skyCtx.lineWidth = 1.9;
+                skyCtx.shadowColor = '#e879f9';
+                skyCtx.shadowBlur = 14;
+                for (let i = 0; i < heartNodes.length; i++) {
+                    const curr = heartNodes[i];
+                    const next = heartNodes[(i + 1) % heartNodes.length];
+                    if (curr.lit && next.lit) {
+                        skyCtx.beginPath();
+                        skyCtx.moveTo(curr.x, curr.y);
+                        skyCtx.lineTo(next.x, next.y);
+                        skyCtx.stroke();
+                    }
+                }
+                skyCtx.restore();
+
+                // Nodos del coraz贸n
+                for (let n of heartNodes) {
+                    n.pulse += 0.06;
+                    if (n.lit) {
+                        const r = 4.2 + Math.sin(n.pulse) * 1.4;
+                        skyCtx.save();
+                        skyCtx.fillStyle = '#ffffff';
+                        skyCtx.shadowColor = '#f0abfc';
+                        skyCtx.shadowBlur = 16;
+                        skyCtx.beginPath();
+                        skyCtx.arc(n.x, n.y, r, 0, Math.PI * 2);
+                        skyCtx.fill();
+                        skyCtx.restore();
+                    } else {
+                        skyCtx.fillStyle = 'rgba(216, 180, 254, 0.22)';
+                        skyCtx.beginPath();
+                        skyCtx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+                        skyCtx.fill();
+                    }
+                }
+
+                // Estrellas trazadas al tocar
+                for (let i = 0; i < userStars.length; i++) {
+                    const us = userStars[i];
+                    drawStar(skyCtx, us.x, us.y, us.r * 2.2, '#f5d0fe', us.alpha, 0);
+                    if (i > 0) {
+                        const prev = userStars[i - 1];
+                        if (Math.hypot(us.x - prev.x, us.y - prev.y) < 110) {
+                            skyCtx.strokeStyle = 'rgba(192, 132, 252, 0.45)';
+                            skyCtx.lineWidth = 1.2;
+                            skyCtx.beginPath();
+                            skyCtx.moveTo(prev.x, prev.y);
+                            skyCtx.lineTo(us.x, us.y);
+                            skyCtx.stroke();
+                        }
+                    }
+                }
+
+                // Estrellas fugaces
+                for (let i = shootingStars.length - 1; i >= 0; i--) {
+                    const st = shootingStars[i];
+                    st.x += st.vx;
+                    st.y += st.vy;
+                    st.life -= 0.022;
+                    if (st.life <= 0) {
+                        shootingStars.splice(i, 1);
+                        continue;
+                    }
+                    const grad = skyCtx.createLinearGradient(st.x, st.y, st.x - st.vx * 6, st.y - st.vy * 6);
+                    grad.addColorStop(0, `rgba(255, 255, 255, ${st.life})`);
+                    grad.addColorStop(0.4, `rgba(240, 171, 252, ${st.life * 0.7})`);
+                    grad.addColorStop(1, 'rgba(168, 85, 247, 0)');
+                    skyCtx.strokeStyle = grad;
+                    skyCtx.lineWidth = 2.4;
+                    skyCtx.beginPath();
+                    skyCtx.moveTo(st.x, st.y);
+                    skyCtx.lineTo(st.x - st.vx * 6, st.y - st.vy * 6);
+                    skyCtx.stroke();
+                }
+
+                if (Math.random() < 0.022) spawnShootingStar();
+                skyFrame = requestAnimationFrame(skyLoop);
+            }
+
+            nightSkyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isSkyActive = true;
+                buildHeartConstellation();
+                userStars.length = 0;
+                lightStars(6);
+                spawnShootingStar();
+                skyStage.classList.remove('opacity-0', 'pointer-events-none');
+                skyLoop();
+            });
+
+            closeSkyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                isSkyActive = false;
+                cancelAnimationFrame(skyFrame);
+                skyStage.classList.add('opacity-0', 'pointer-events-none');
+            });
+
+            skyCanvas.addEventListener('pointerdown', (e) => {
+                lightStars(3, e.clientX, e.clientY);
+            });
+
+            skyCanvas.addEventListener('pointermove', (e) => {
+                if (e.buttons > 0 || e.pointerType === 'touch') {
+                    lightStars(1, e.clientX, e.clientY);
+                }
+            });
+
+            completeHeartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                heartNodes.forEach(n => n.lit = true);
+                for (let i = 0; i < 4; i++) {
+                    setTimeout(spawnShootingStar, i * 180);
+                }
+            });
+
+            nextSkyQuoteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                skyQuoteIdx = (skyQuoteIdx + 1) % skyQuotesList.length;
+                skyQuote.textContent = skyQuotesList[skyQuoteIdx];
+                spawnShootingStar();
+            });
+        });
+    </script>
+</body>
+</html>
